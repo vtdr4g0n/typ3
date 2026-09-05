@@ -7,31 +7,35 @@
 <link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Rajdhani:wght@500;700;900&family=Noto+Serif+Tamil:wght@400;600&family=Noto+Sans+Tamil:wght@400;600&family=Inter:wght@400;700&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#1b1b1b;--panel:#151515;--border:#2a2a2a;--gold:#c9a84c;--text:#eee;--muted:#888;
-  --page-bg:#ffffff;--page-text:#1a1a1a;--page-shadow:0 6px 24px rgba(0,0,0,.35);
+  --bg:#161616;--panel:#111;--border:#2a2a2a;--gold:#c9a84c;--text:#eee;--muted:#888;
 }
-body.dark-chrome{--bg:#050505;--panel:#0e0e0e;--border:#232323;--text:#eee;--muted:#777}
 *{box-sizing:border-box;margin:0;padding:0}
 body{height:100vh;background:var(--bg);color:var(--text);font-family:'Space Mono',monospace;display:flex;flex-direction:column;overflow:hidden}
-header{min-height:58px;background:var(--panel);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.8rem;padding:.6rem 1rem;flex-wrap:wrap}
-.logo{font-family:'Rajdhani',sans-serif;font-weight:900;color:var(--gold);letter-spacing:.2em}
-#timer{font-family:'Rajdhani',sans-serif;font-weight:900;font-size:1.15rem;color:var(--gold);min-width:56px;text-align:center;letter-spacing:.05em}
+header{min-height:52px;background:var(--panel);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:.8rem;padding:.55rem 1rem;flex-wrap:wrap}
+.logo{font-family:'Rajdhani',sans-serif;font-weight:900;color:var(--gold);letter-spacing:.2em;font-size:.95rem}
+#timer{font-family:'Rajdhani',sans-serif;font-weight:900;font-size:1.1rem;color:var(--gold);min-width:52px;text-align:center;letter-spacing:.05em}
 .sep{width:1px;height:20px;background:var(--border)}
 .right{margin-left:auto;display:flex;gap:.5rem;flex-wrap:wrap;align-items:center}
-.btn,.sel{font-family:'Space Mono',monospace;font-size:.58rem;letter-spacing:.1em;color:var(--text);background:var(--bg);border:1px solid var(--border);padding:.35rem .65rem;cursor:pointer}
+.btn,.sel{font-family:'Space Mono',monospace;font-size:.56rem;letter-spacing:.1em;color:var(--text);background:var(--bg);border:1px solid var(--border);padding:.32rem .6rem;cursor:pointer}
 .btn:hover{color:var(--gold);border-color:var(--gold)}
-main{flex:1;display:flex;flex-direction:column;min-height:0}
-.label{padding:.45rem 1rem;background:var(--panel);border-bottom:1px solid var(--border);font-size:.55rem;letter-spacing:.18em;color:var(--muted);text-transform:uppercase;display:flex;justify-content:space-between}
-.paperWrap{flex:1;min-height:0;display:flex;flex-direction:column;background:#3c3c3c;overflow:auto;padding:2.2rem 1rem}
-.page{background:var(--page-bg);color:var(--page-text);width:100%;max-width:820px;margin:0 auto;min-height:100%;box-shadow:var(--page-shadow);padding:64px 68px;font-family:'Noto Serif Tamil',serif;font-size:22px;line-height:1.95;white-space:pre-wrap;word-break:break-word}
-.page.empty{color:#9a9a9a;font-style:italic}
+
+/* Everything below the header is one full-bleed white page. */
+main{flex:1;min-height:0;background:#fff;overflow:auto;cursor:text}
+#page{
+  max-width:900px;margin:0 auto;min-height:100%;
+  padding:70px 60px 200px;
+  color:#1a1a1a;font-family:'Noto Serif Tamil',serif;font-size:24px;line-height:1.95;
+  white-space:pre-wrap;word-break:break-word;
+}
+#page.empty{color:#b5b5b5;font-style:italic}
 .stroke{display:inline;animation:strokeIn .16s ease-out}
 @keyframes strokeIn{from{opacity:0;filter:blur(1.5px)}to{opacity:1;filter:blur(0)}}
-.inputWrap{height:116px;background:var(--panel);border-top:1px solid var(--border);display:flex;flex-direction:column}
-.inputHead{padding:.35rem 1rem;border-bottom:1px solid var(--border);font-size:.52rem;letter-spacing:.18em;color:var(--muted);display:flex;justify-content:space-between}
-.inputHead b{color:var(--gold);font-weight:700}
-#raw{flex:1;width:100%;border:0;outline:0;resize:none;background:var(--panel);color:var(--text);caret-color:var(--gold);font-family:'Space Mono',monospace;font-size:18px;line-height:1.55;padding:.65rem 1rem}
-@media(max-width:850px){header{align-items:flex-start}.right{margin-left:0}.page{font-size:20px;padding:40px 28px}.inputWrap{height:128px}}
+.caret{display:inline-block;width:2px;height:1em;background:#1a1a1a;vertical-align:text-bottom;animation:blink 1s step-end infinite;margin-left:1px}
+@keyframes blink{0%,50%{opacity:1}51%,100%{opacity:0}}
+
+/* The real textarea exists only to capture keystrokes — it is never seen. */
+#raw{position:fixed;top:0;left:0;width:1px;height:1px;opacity:0;border:0;outline:0;padding:0;resize:none;pointer-events:none}
+@media(max-width:850px){#page{font-size:20px;padding:40px 24px 160px}}
 </style>
 </head>
 <body>
@@ -56,23 +60,17 @@ main{flex:1;display:flex;flex-direction:column;min-height:0}
     <button class="btn" onclick="size(2)">+</button>
     <button class="btn" onclick="copyOut()">COPY</button>
     <button class="btn" onclick="clearAll()">CLEAR</button>
-    <button id="chrome" class="btn" onclick="toggleChrome()">DARK CHROME</button>
     <button class="btn" onclick="location.href='index.html'">MENU</button>
   </div>
 </header>
-<main>
-  <section class="paperWrap">
-    <div id="out" class="page empty">Start typing in the small box below...</div>
-  </section>
-  <section class="inputWrap">
-    <div class="inputHead"><span>TYPE HERE</span><b id="modeText">TAMIL MODE</b></div>
-    <textarea id="raw" placeholder="Tamil mode: type keys like peidth;ww;y  |  English mode: normal typing" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off"></textarea>
-  </section>
+<main id="main">
+  <div id="page" class="empty">Click here and start typing...</div>
 </main>
+<textarea id="raw" spellcheck="false" autocomplete="off" autocorrect="off" autocapitalize="off"></textarea>
 <script src="js/engine.js"></script>
 <script>
-const raw=document.getElementById('raw'),out=document.getElementById('out'),mode=document.getElementById('mode'),timerEl=document.getElementById('timer');
-let fs=22;let savedText='';let lastMode=mode.value;
+const raw=document.getElementById('raw'),page=document.getElementById('page'),mode=document.getElementById('mode'),timerEl=document.getElementById('timer'),mainEl=document.getElementById('main');
+let fs=24;let savedText='';let lastMode=mode.value;
 let renderedPlain='';
 let startTime=null,timerInterval=null;
 
@@ -96,39 +94,44 @@ function stopTimer(){
   timerEl.textContent='0:00';
 }
 
-function escapeHTML(s){return String(s).replace(/[&<>]/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;'}[m]))}
+function placeCaret(){
+  const c=document.createElement('span');
+  c.className='caret';
+  page.appendChild(c);
+}
 
 // Renders the page. If the new text is just the old text plus an addition,
 // only the new tail gets wrapped in an animated "stroke" span, so already
 // visible letters never re-animate. Anything else (delete/edit/mode switch)
-// gets a plain full re-render.
+// gets a plain full re-render. A blinking caret always sits at the end.
 function paint(full){
   if(full===renderedPlain) return;
   if(full && full.startsWith(renderedPlain)){
     const added=full.slice(renderedPlain.length);
-    if(out.classList.contains('empty')){ out.innerHTML=''; out.classList.remove('empty'); }
+    if(page.classList.contains('empty')){ page.innerHTML=''; page.classList.remove('empty'); }
+    else { const oldCaret=page.querySelector('.caret'); if(oldCaret) oldCaret.remove(); }
     const span=document.createElement('span');
     span.className='stroke';
     span.textContent=added;
-    out.appendChild(span);
+    page.appendChild(span);
+    placeCaret();
   } else {
-    out.innerHTML='';
+    page.innerHTML='';
     if(full){
       const span=document.createElement('span');
       span.textContent=full;
-      out.appendChild(span);
+      page.appendChild(span);
+      placeCaret();
     } else {
-      out.classList.add('empty');
-      out.textContent='Start typing in the small box below...';
+      page.classList.add('empty');
+      page.textContent='Click here and start typing...';
     }
   }
   renderedPlain=full;
-  out.scrollTop=out.scrollHeight;
+  mainEl.scrollTop=mainEl.scrollHeight;
 }
 
 function render(){
-  const m=mode.value;
-  document.getElementById('modeText').textContent=m==='tamil'?'TAMIL MODE':'ENGLISH MODE';
   const text=currentText();
   if(text) startTimerIfNeeded();
   paint(text);
@@ -139,21 +142,19 @@ function commitCurrent(){
   raw.value=''
 }
 function changeModeKeepText(){commitCurrent();lastMode=mode.value;render();raw.focus()}
-function applyFont(){out.style.fontFamily=document.getElementById('font').value}
-function size(d){fs=Math.max(14,Math.min(52,fs+d));out.style.fontSize=fs+'px'}
-function copyOut(){navigator.clipboard&&navigator.clipboard.writeText(out.classList.contains('empty')?'':currentText())}
+function applyFont(){page.style.fontFamily=document.getElementById('font').value}
+function size(d){fs=Math.max(14,Math.min(52,fs+d));page.style.fontSize=fs+'px'}
+function copyOut(){navigator.clipboard&&navigator.clipboard.writeText(page.classList.contains('empty')?'':currentText())}
 function clearAll(){
   savedText='';raw.value='';lastMode=mode.value;
   renderedPlain='';
   stopTimer();
   render();raw.focus()
 }
-function toggleChrome(){
-  document.body.classList.toggle('dark-chrome');
-  document.getElementById('chrome').textContent=document.body.classList.contains('dark-chrome')?'LIGHT CHROME':'DARK CHROME';
-}
 raw.addEventListener('input',render);
 mode.addEventListener('change',changeModeKeepText);
+mainEl.addEventListener('click',()=>raw.focus());
+document.addEventListener('keydown',()=>raw.focus());
 applyFont();render();raw.focus();
 </script>
 </body>
